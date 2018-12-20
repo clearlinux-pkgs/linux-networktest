@@ -1,3 +1,3 @@
-PKG_NAME := linux
+PKG_NAME := linux-networktest
 
 include ../common/Makefile.common

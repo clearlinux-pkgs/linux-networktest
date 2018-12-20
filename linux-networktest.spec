@@ -3,9 +3,9 @@
 # things break
 #
 
-Name:           linux
+Name:           linux-networktest
 Version:        4.19.11
-Release:        673
+Release:        1
 License:        GPL-2.0
 Summary:        The Linux kernel
 Url:            http://www.kernel.org/
