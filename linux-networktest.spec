@@ -14,7 +14,7 @@ Source0:        https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.11.tar.x
 Source1:        config
 Source2:        cmdline
 
-%define ktarget  native
+%define ktarget  native-networktest
 %define kversion %{version}-%{release}.%{ktarget}
 
 BuildRequires:  buildreq-kernel
