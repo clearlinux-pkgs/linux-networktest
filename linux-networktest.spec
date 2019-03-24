@@ -85,6 +85,13 @@ Requires:       linux-networktest-license = %{version}-%{release}
 %description extra
 Linux kernel extra files
 
+%package license
+Summary: license components for the linux package.
+Group: Default
+
+%description license
+license components for the linux package.
+
 %package cpio
 License:        GPL-2.0
 Summary:        cpio file with kenrel modules
