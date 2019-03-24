@@ -1,7 +1,7 @@
-From 5146da547584fc2b45a0ee3bffffae8ac8d7ccf6 Mon Sep 17 00:00:00 2001
+From e953e98007b1852063ef5b13617c220ccb07bdb5 Mon Sep 17 00:00:00 2001
 From: Jim Kukunas <james.t.kukunas@linux.intel.com>
 Date: Fri, 27 May 2016 09:26:51 -0400
-Subject: [PATCH 109/122] raid6: add Kconfig option to skip raid6 benchmarking
+Subject: [PATCH 109/127] raid6: add Kconfig option to skip raid6 benchmarking
 
 Adds CONFIG_RAID6_FORCE_ALGO, which causes the kernel to not benchmark
 each raid recovery and syndrome generation algorithm, and instead use
@@ -152,5 +152,5 @@ index 5065b1e7e327..1613035fbfa1 100644
  static void raid6_exit(void)
  {
 -- 
-2.19.1
+2.20.1
 
