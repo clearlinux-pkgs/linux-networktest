@@ -5,7 +5,7 @@
 
 Name:           linux-networktest
 Version:        4.19.31
-Release:        3
+Release:        4
 License:        GPL-2.0
 Summary:        The Linux kernel
 Url:            http://www.kernel.org/
