@@ -1,16 +1,16 @@
 #
-# note to self: Linus releases need to be named 4.x.0 not 4.x or various
-# things break
+# This is a special configuration of the Linux kernel, based on linux package
+# for NFS Rootfs support
 #
 
 Name:           linux-networktest
-Version:        4.19.12
+Version:        4.19.31
 Release:        3
 License:        GPL-2.0
 Summary:        The Linux kernel
 Url:            http://www.kernel.org/
 Group:          kernel
-Source0:        https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.12.tar.xz
+Source0:        https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.31.tar.xz
 Source1:        config
 Source2:        cmdline
 
@@ -21,6 +21,7 @@ BuildRequires:  buildreq-kernel
 
 Requires: systemd-bin
 Requires: init-rdahead-extras
+Requires: linux-networktest-license = %{version}-%{release}
 
 # don't strip .ko files!
 %global __os_install_post %{nil}
@@ -28,12 +29,15 @@ Requires: init-rdahead-extras
 %define __strip /bin/true
 
 #    000X: cve, bugfixes patches
-
+Patch0001: 0001-i40iw-Avoid-panic-when-handling-the-inetdev-event.patch
+Patch0002: CVE-2019-9857.patch
 
 #    00XY: Mainline patches, upstream backports
-Patch0010: 0010-drm-i915-cfl-Add-a-new-CFL-PCI-ID.patch
+Patch0011: 0011-drm-i915-cfl-Add-a-new-CFL-PCI-ID.patch
+Patch0012: 0012-drm-i915-Redefine-some-Whiskey-Lake-SKUs.patch
+Patch0013: 0013-drm-i915-aml-Add-new-Amber-Lake-PCI-ID.patch
 
-# Serie    01XX: Clear Linux patches
+#Serie.clr 01XX: Clear Linux patches
 Patch0101: 0101-i8042-decrease-debug-message-level-to-info.patch
 Patch0102: 0102-Increase-the-ext4-default-commit-age.patch
 Patch0103: 0103-silence-rapl.patch
@@ -56,15 +60,12 @@ Patch0119: 0119-Add-boot-option-to-allow-unsigned-modules.patch
 Patch0120: 0120-Enable-stateless-firmware-loading.patch
 Patch0121: 0121-Migrate-some-systemd-defaults-to-the-kernel-defaults.patch
 Patch0122: 0122-xattr-allow-setting-user.-attributes-on-symlinks-by-.patch
-Patch0124: turbo3-scheduler.patch
-
-Patch0125: lfence.patch
-Patch0126: lifo-accept.patch
-#
-# Small Clear Linux Tweaks
-#
-Patch0501: 0501-zero-extra-registers.patch
-Patch0502: 0502-locking-rwsem-spin-faster.patch
+Patch0123: 0123-add-scheduler-turbo3-patch.patch
+Patch0124: 0124-use-lfence-instead-of-rep-and-nop.patch
+Patch0125: 0125-do-accept-in-LIFO-order-for-cache-efficiency.patch
+Patch0126: 0126-zero-extra-registers.patch
+Patch0127: 0127-locking-rwsem-spin-faster.patch
+#Serie.clr.end
 
 #Serie1.name WireGuard
 #Serie1.git  https://git.zx2c4.com/WireGuard
@@ -79,6 +80,7 @@ The Linux kernel.
 License:        GPL-2.0
 Summary:        The Linux kernel extra files
 Group:          kernel
+Requires:       linux-networktest-license = %{version}-%{release}
 
 %description extra
 Linux kernel extra files
@@ -89,24 +91,30 @@ Summary:        cpio file with kenrel modules
 Group:          kernel
 
 %description cpio
-Creates a cpio file with i8042 module
+Creates a cpio file with some module
 
 %package dev
 License:        GPL-2.0
 Summary:        The Linux kernel
 Group:          kernel
-Requires:       %{name} = %{version}-%{release}, %{name}-extra = %{version}-%{release}
+Requires:       linux-networktest = %{version}-%{release}
+Requires:       linux-networktest-extra = %{version}-%{release}
+Requires:       linux-networktest-license = %{version}-%{release}
 
 %description dev
 Linux kernel build files and install script
 
 %prep
-%setup -q -n linux-4.19.12
+%setup -q -n linux-4.19.31
 
 #     000X  cve, bugfixes patches
+%patch0001 -p1
+%patch0002 -p1
 
 #     00XY  Mainline patches, upstream backports
-%patch0010 -p1
+%patch0011 -p1
+%patch0012 -p1
+%patch0013 -p1
 
 #     01XX  Clear Linux patches
 %patch0101 -p1
@@ -131,15 +139,11 @@ Linux kernel build files and install script
 %patch0120 -p1
 %patch0121 -p1
 %patch0122 -p1
+%patch0123 -p1
 %patch0124 -p1
 %patch0125 -p1
 %patch0126 -p1
-
-#
-# Small tweaks
-#
-%patch0501 -p1
-%patch0502 -p1
+%patch0127 -p1
 
 #Serie1.patch.start
 %patch1001 -p1
@@ -222,9 +226,12 @@ createCPIO() {
     ModDir=/usr/lib/modules/${Kversion}
 
     mkdir -p cpiofile${ModDir}/kernel/drivers/input/{serio,keyboard}
-    cp %{buildroot}${ModDir}/kernel/drivers/input/serio/i8042.ko    cpiofile${ModDir}/kernel/drivers/input/serio
-    cp %{buildroot}${ModDir}/kernel/drivers/input/serio/libps2.ko   cpiofile${ModDir}/kernel/drivers/input/serio
-    cp %{buildroot}${ModDir}/kernel/drivers/input/keyboard/atkbd.ko cpiofile${ModDir}/kernel/drivers/input/keyboard
+    mkdir -p cpiofile${ModDir}/kernel/drivers/hid
+    cp %{buildroot}${ModDir}/kernel/drivers/input/serio/i8042.ko      cpiofile${ModDir}/kernel/drivers/input/serio
+    cp %{buildroot}${ModDir}/kernel/drivers/input/serio/libps2.ko     cpiofile${ModDir}/kernel/drivers/input/serio
+    cp %{buildroot}${ModDir}/kernel/drivers/input/keyboard/atkbd.ko   cpiofile${ModDir}/kernel/drivers/input/keyboard
+    cp %{buildroot}${ModDir}/kernel/drivers/hid/hid-logitech-dj.ko    cpiofile${ModDir}/kernel/drivers/hid
+    cp %{buildroot}${ModDir}/kernel/drivers/hid/hid-logitech-hidpp.ko cpiofile${ModDir}/kernel/drivers/hid
     cp %{buildroot}${ModDir}/modules.order   cpiofile${ModDir}
     cp %{buildroot}${ModDir}/modules.builtin cpiofile${ModDir}
 
@@ -243,6 +250,10 @@ createCPIO %{ktarget} %{kversion}
 
 rm -rf %{buildroot}/usr/lib/firmware
 
+mkdir -p %{buildroot}/usr/share/package-licenses/linux-networktest
+cp COPYING %{buildroot}/usr/share/package-licenses/linux-networktest/COPYING
+cp -a LICENSES/* %{buildroot}/usr/share/package-licenses/linux-networktest
+
 %files
 %dir /usr/lib/kernel
 %dir /usr/lib/modules/%{kversion}
@@ -257,6 +268,10 @@ rm -rf %{buildroot}/usr/lib/firmware
 %dir /usr/lib/kernel
 /usr/lib/kernel/System.map-%{kversion}
 /usr/lib/kernel/vmlinux-%{kversion}
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/linux-networktest
 
 %files cpio
 /usr/lib/kernel/initrd-org.clearlinux.%{ktarget}.%{version}-%{release}
