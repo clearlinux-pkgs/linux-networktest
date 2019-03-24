@@ -1,13 +1,13 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 4.19.11 Kernel Configuration
+# Linux/x86 4.19.31 Kernel Configuration
 #
 
 #
-# Compiler: gcc (Clear Linux OS for Intel Architecture) 8.2.1 20180502
+# Compiler: gcc (Clear Linux OS for Intel Architecture) 8.3.1 20190324 gcc-8-branch@269893
 #
 CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=80201
+CONFIG_GCC_VERSION=80301
 CONFIG_CLANG_VERSION=0
 CONFIG_IRQ_WORK=y
 CONFIG_BUILDTIME_EXTABLE_SORT=y
@@ -4286,6 +4286,7 @@ CONFIG_DRM_KMS_HELPER=y
 CONFIG_DRM_KMS_FB_HELPER=y
 CONFIG_DRM_FBDEV_EMULATION=y
 CONFIG_DRM_FBDEV_OVERALLOC=100
+# CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM is not set
 # CONFIG_DRM_LOAD_EDID_FIRMWARE is not set
 CONFIG_DRM_DP_CEC=y
 CONFIG_DRM_TTM=y
@@ -5281,10 +5282,10 @@ CONFIG_TYPEC_MUX_PI3USB30532=m
 # USB Type-C Alternate Mode drivers
 #
 CONFIG_TYPEC_DP_ALTMODE=m
+CONFIG_USB_ROLE_SWITCH=m
 CONFIG_USB_ROLES_INTEL_XHCI=m
 # CONFIG_USB_LED_TRIG is not set
 CONFIG_USB_ULPI_BUS=m
-CONFIG_USB_ROLE_SWITCH=m
 CONFIG_UWB=m
 CONFIG_UWB_HWA=m
 CONFIG_UWB_WHCI=m
@@ -7294,6 +7295,7 @@ CONFIG_DEBUG_BOOT_PARAMS=y
 CONFIG_UNWINDER_FRAME_POINTER=y
 # CONFIG_UNWINDER_GUESS is not set
 
+
 # kernel-config sources:
-# FILEVER=/usr/share/kernel-config/base-4.19-3-14
-# FILEVER=/usr/share/kernel-config/mandatory-4.19-3-14
+# FILEVER=/usr/share/kernel-config/base-4.19-3-22
+# FILEVER=/usr/share/kernel-config/mandatory-4.19-3-22
