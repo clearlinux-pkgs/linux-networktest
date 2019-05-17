@@ -28,7 +28,11 @@ Requires: linux-networktest-license = %{version}-%{release}
 %define debug_package %{nil}
 %define __strip /bin/true
 
-#    000X: cve, bugfixes patches
+#cve.start cve patches from 0001 to 009
+Patch0001: CVE-2019-9500.patch
+Patch0002: CVE-2019-11833.patch
+Patch0003: CVE-2019-9503.patch
+#cve.end
 
 #    00XY: Mainline patches, upstream backports
 Patch0011: 0011-drm-i915-cfl-Add-a-new-CFL-PCI-ID.patch
@@ -113,7 +117,11 @@ Linux kernel build files and install script
 %prep
 %setup -q -n linux-4.19.44
 
-#     000X  cve, bugfixes patches
+#cve.patch.start cve patches
+%patch0001 -p1
+%patch0002 -p1
+%patch0003 -p1
+#cve.patch.end
 
 #     00XY  Mainline patches, upstream backports
 %patch0011 -p1
