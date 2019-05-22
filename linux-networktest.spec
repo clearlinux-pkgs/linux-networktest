@@ -30,7 +30,7 @@ Requires: linux-networktest-license = %{version}-%{release}
 
 #cve.start cve patches from 0001 to 009
 Patch0001: CVE-2019-9500.patch
-Patch0003: CVE-2019-9503.patch
+Patch0002: CVE-2019-9503.patch
 #cve.end
 
 #    00XY: Mainline patches, upstream backports
