@@ -5,7 +5,7 @@
 
 Name:           linux-networktest
 Version:        4.19.46
-Release:        24
+Release:        25
 License:        GPL-2.0
 Summary:        The Linux kernel
 Url:            http://www.kernel.org/
@@ -31,6 +31,13 @@ Requires: linux-networktest-license = %{version}-%{release}
 #cve.start cve patches from 0001 to 009
 Patch0001: CVE-2019-9500.patch
 Patch0002: CVE-2019-9503.patch
+Patch0003: CVE-2019-12455.patch
+Patch0004: CVE-2019-12456.patch
+Patch0005: CVE-2019-12378.patch
+Patch0006: CVE-2019-12379.patch
+Patch0007: CVE-2019-12380.patch
+Patch0008: CVE-2019-12381.patch
+Patch0009: CVE-2019-12382.patch
 #cve.end
 
 #    00XY: Mainline patches, upstream backports
@@ -119,6 +126,13 @@ Linux kernel build files and install script
 #cve.patch.start cve patches
 %patch0001 -p1
 %patch0002 -p1
+%patch0003 -p1
+%patch0004 -p1
+%patch0005 -p1
+%patch0006 -p1
+%patch0007 -p1
+%patch0008 -p1
+%patch0009 -p1
 #cve.patch.end
 
 #     00XY  Mainline patches, upstream backports
